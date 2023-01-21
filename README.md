@@ -23,11 +23,11 @@
   execute `npx sequelize db:create`
 
 ## DB Design
-- Airplane table
-- Flight
-- Airport
-- City
-
+- The database will have following tables 
+ - Airplane table
+ - Flight table 
+ - Airport table
+ - City table 
 - A flight belongs to an airplane but one airplane can be used in multiple flights 
 - A city has many airports but one airport belongs to a city 
 - One airport can have many flights but one flight of particular id can belong to only one airport 
