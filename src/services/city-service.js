@@ -10,6 +10,7 @@ class CityService {
       //inside the cityservice class if we want to use the property of the cityservice then we have to use this.property
       // syntax like we did here ,outside the class if we want to make use of the property of the class
       //then we have to use like first create a object of the CityServie class then obj.property.
+      return city;
     } catch (error) {
       console.log("something went wrong at service layer");
       throw { error };
@@ -26,9 +27,9 @@ class CityService {
     }
   }
 
-  async updateCity(data) {
+  async updateCity(cityId,data) {
     try {
-      const city = await this.cityRepository.updateCity(data);
+      const city = await this.cityRepository.updateCity(cityId,data);
       return city;
     } catch (error) {
       console.log("something went wrong at service layer");
