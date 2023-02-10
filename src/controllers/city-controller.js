@@ -23,7 +23,7 @@ const create = async (req, res) => {
   }
 };
 //in rest delete -> /city/:id
-const destory = async (req, res) => {
+const destroy = async (req, res) => {
   try {
     const response = await cityService.deleteCity(req.params.id);
     //now we need to return this city in the form of json response
