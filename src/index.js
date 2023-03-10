@@ -17,8 +17,9 @@ const SetupAndStartServer = async () => {
 
   app.listen(PORT, async () => {
     console.log(`Server started at Port ${PORT}`);
-    if (process.env.SYNC_DB) {//if the env file have SYNC_DB property then only synchronize the db otherwise dont synchronize 
-      db.sequelize.sync({ alter: true });//never write force:true it will delete all data of all the tables .
+    if (process.env.SYNC_DB) {
+      //if the env file have SYNC_DB property then only synchronize the db otherwise dont synchronize
+      db.sequelize.sync({ alter: true }); //never write force:true it will delete all data of all the tables .
     }
   });
 };

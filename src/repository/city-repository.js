@@ -2,6 +2,7 @@ const { Op } = require("sequelize");
 const { City } = require("../models/index"); //going to return a db obj which has all the models
 
 class CityRepository {
+  
   async createCity(cityName) {
     try {
       const city = await City.create({
@@ -64,7 +65,7 @@ class CityRepository {
   async getAllCities(filter) {
     //filter can be empty also
     try {
-      if (filter.name) {
+      if (filter.name){/* that means if filter is empty or not  */
         const cities = await City.findAll({
           where: {
             name: {
