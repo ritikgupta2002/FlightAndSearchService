@@ -37,10 +37,26 @@ execute
 ## Tables
 
  1.  City Table 
-      - City->id , name , created_at , updated_at 
+      - City->id , name , created_at , updated_at
+
  2.  Airport Table
-      - Airport->id , name , address , city_id , created_at , updated_at  
-      Relationship -> City has many airports and Airport belongs to a city (one to many)
+      - Airport->id , name , address , city_id , created_at , updated_at
+        Relationship -> City has many airports and Airport belongs to a city (one to many)
+
+      - Create a seed file by using 
+        - `npx sequelize seed:generate --name add-airports`
+      - After putting the dummy data do this
+        - `npx sequelize db:seed:all` 
+
+  3.  Airplane Table
+      - Airplane->id,modelNumber,capacity , created_at, updated_at
+      - Create a seed file by using 
+        - `npx sequelize seed:generate --name add-airplanes`
+      - After putting the dummy data do this
+        - `npx sequelize db:seed:all` 
+      
+
+      
       
 
 
