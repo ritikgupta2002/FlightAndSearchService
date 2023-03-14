@@ -1,6 +1,44 @@
 const { Flights } = require("../models/index");
+const { Op } = require("sequelize");
+const { AirplaneRepository } = require(".");
 
 class FlightRepository {
+  //# is used so that we can create private methods and they dont get exposed
+  #createFilter(data) {
+    let filter = {};
+    if (data.arrivalAirportId) {
+      filter.arrivalAirportId = data.arrivalAirportId;
+    }
+    if (data.departureAirportId) {
+      filter.departureAirportId = data.departureAirportId;
+    }
+    // if (data.minPrice && data.maxPrice) {
+    //   Object.assign(filter, {
+    //     [Op.and]: [
+    //       { price: { [Op.lte]: data.maxPrice } },
+    //       { price: { [Op.gte]: data.minPrice } },
+    //     ],
+    //   });
+    // }
+
+    let priceFilter=[];
+    if (data.minPrice) {
+      //whenever symbols are involved always use object.assign()
+      // Object.assign(filter, { price: { [Op.gte]: data.minPrice } });//greater then equal to .
+      priceFilter.push({ price: { [Op.gte]: data.minPrice } });
+    }
+    if(data.maxPrice)
+    {
+      // Object.assign(filter,{price:{[Op.lte]:data.maxPrice}});//less then equal to
+      priceFilter.push({price:{[Op.lte]:data.maxPrice}});
+    }
+    // Object.assign(filter ,{[Op.and]: [{price:{[Op.lte]: 5500 }}, {price:{[Op.gte]: 3300 }}]});
+    // console.log(filter);
+    Object.assign(filter,{[Op.and]:priceFilter});
+    console.log(filter);
+    return filter;
+  }
+
   async createFlight(data) {
     try {
       const flight = await Flights.create(data);
@@ -10,5 +48,29 @@ class FlightRepository {
       throw { error };
     }
   }
+
+  async getFlight(flightId) {
+    try {
+      const flight = await Flights.findByPk(flightId);
+      return flight;
+    } catch (error) {
+      console.log("something went wrong in the repository layer");
+      throw { error };
+    }
+  }
+
+  async getAllFlights(filter) {
+    try {
+      const filterObject = this.#createFilter(filter);
+      const flight = await Flights.findAll({
+        where: filterObject,
+      });
+      return flight;
+    } catch (error) {
+      console.log("something went wrong in the repository layer");
+      throw { error };
+    }
+  }
 }
+
 module.exports = FlightRepository;
