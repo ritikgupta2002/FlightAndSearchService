@@ -21,20 +21,19 @@ class FlightRepository {
     //   });
     // }
 
-    let priceFilter=[];
+    let priceFilter = [];
     if (data.minPrice) {
       //whenever symbols are involved always use object.assign()
       // Object.assign(filter, { price: { [Op.gte]: data.minPrice } });//greater then equal to .
       priceFilter.push({ price: { [Op.gte]: data.minPrice } });
     }
-    if(data.maxPrice)
-    {
+    if (data.maxPrice) {
       // Object.assign(filter,{price:{[Op.lte]:data.maxPrice}});//less then equal to
-      priceFilter.push({price:{[Op.lte]:data.maxPrice}});
+      priceFilter.push({ price: { [Op.lte]: data.maxPrice } });
     }
     // Object.assign(filter ,{[Op.and]: [{price:{[Op.lte]: 5500 }}, {price:{[Op.gte]: 3300 }}]});
     // console.log(filter);
-    Object.assign(filter,{[Op.and]:priceFilter});
+    Object.assign(filter, { [Op.and]: priceFilter });
     console.log(filter);
     return filter;
   }
@@ -66,6 +65,20 @@ class FlightRepository {
         where: filterObject,
       });
       return flight;
+    } catch (error) {
+      console.log("something went wrong in the repository layer");
+      throw { error };
+    }
+  }
+
+  async updateFlight(flightId, data) {
+    try {
+      await Flights.update(data, {
+        where: {
+          id: flightId,
+        },
+      });
+      return true;
     } catch (error) {
       console.log("something went wrong in the repository layer");
       throw { error };

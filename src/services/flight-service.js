@@ -1,5 +1,5 @@
 const { FlightRepository, AirplaneRepository } = require("../repository/index");
-const {compareTime}=require('../utils/helper');
+const { compareTime } = require("../utils/helper");
 class FlightService {
   constructor() {
     this.airplaneRepository = new AirplaneRepository();
@@ -7,12 +7,16 @@ class FlightService {
   }
   async createFlight(data) {
     try {
-      if(!(compareTime(data.arrivalTime,data.departureTime)))
-      {
-        throw {error:'Arrival time cannot be less then departure time '};
+      if (!compareTime(data.arrivalTime, data.departureTime)) {
+        throw { error: "Arrival time cannot be less then departure time " };
       }
-      const airplane = await this.airplaneRepository.getAirplane(data.airplaneId);
-      const flight= await this.flightRepository.createFlight({...data,totalSeats:airplane.capacity});
+      const airplane = await this.airplaneRepository.getAirplane(
+        data.airplaneId
+      );
+      const flight = await this.flightRepository.createFlight({
+        ...data,
+        totalSeats: airplane.capacity,
+      });
       return flight;
     } catch (error) {
       console.log("something went wrong at service layer");
@@ -22,8 +26,28 @@ class FlightService {
 
   async getAllFlightData(data) {
     try {
-      const flights=await this.flightRepository.getAllFlights(data);
+      const flights = await this.flightRepository.getAllFlights(data);
       return flights;
+    } catch (error) {
+      console.log("something went wrong at service layer");
+      throw { error };
+    }
+  }
+
+  async getFlight(flightId) {
+    try {
+      const flight = await this.flightRepository.getFlight(flightId);
+      return flight;
+    } catch (error) {
+      console.log("something went wrong at service layer");
+      throw { error };
+    }
+  }
+
+  async updateFlight(flightId, data) {
+    try {
+      const response = await this.flightRepository.updateFlight(flightId, data);
+      return response;
     } catch (error) {
       console.log("something went wrong at service layer");
       throw { error };
@@ -31,7 +55,7 @@ class FlightService {
   }
 }
 
-module.exports=FlightService;  
+module.exports = FlightService;
 
 /*  
 {
